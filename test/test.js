@@ -85,7 +85,25 @@ describe('Webapp generator', function () {
         done();
       });
     });
+  
+    it('creates expected express server files', function (done) {
+      runGen.withOptions(
+        _.extend(options, {expressServer: true})
+      ).on('end', function () {
 
+        assert.file([].concat(
+          expected,
+          'server.js'
+        ));
+
+        assert.fileContent([].concat(
+          expectedContent,
+          [['package.json', /express/]]
+        ));
+
+        done();
+      });
+    });
 
     it('creates expected modernizr components', function (done) {
       runGen.withOptions(options).withPrompt({features: ['includeModernizr']})

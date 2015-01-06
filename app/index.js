@@ -16,6 +16,13 @@ module.exports = yeoman.generators.Base.extend({
     });
     this.testFramework = this.options['test-framework'];
 
+    this.option('expressServer', {
+      desc: 'Include an express server',
+      type: Boolean,
+      defaults: false
+    });
+    this.expressServer = this.options.expressServer;
+
     this.pkg = require('../package.json');
   },
 
@@ -205,9 +212,15 @@ module.exports = yeoman.generators.Base.extend({
 
     if (this.includeReact) {
       this.copy('router.jsx', 'app/scripts/router.jsx');
-      this.copy('product', 'app/scripts/product');  
+      this.bulkDirectory('product', 'app/scripts/product');  
     }
 
+  },
+
+  express: function(){
+    if(this.expressServer){
+      this.copy('_express.js', 'server.js');
+    }
   },
 
   install: function () {
