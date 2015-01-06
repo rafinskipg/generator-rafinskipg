@@ -16,13 +16,6 @@ module.exports = yeoman.generators.Base.extend({
     });
     this.testFramework = this.options['test-framework'];
 
-    this.option('expressServer', {
-      desc: 'Include an express server',
-      type: Boolean,
-      defaults: false
-    });
-    this.expressServer = this.options.expressServer;
-
     this.pkg = require('../package.json');
   },
   prompting: {
@@ -52,6 +45,26 @@ module.exports = yeoman.generators.Base.extend({
       this.prompt(prompt, function (responses) {
         this.includeBootstrap = responses.framework === 'Bootstrap';
         this.includeFoundation = responses.framework === 'Foundation';
+        done();
+      }.bind(this));
+    },
+
+    server: function () {
+      var done = this.async();
+
+      
+      var prompt = [{
+        type: 'list',
+        name: 'server',
+        message: 'Do you need an express server for serving your distribution folder on Heroku/Nitrous/etc without using grunt?:',
+        choices: [
+          'Yes',
+          'Nope'
+        ]
+      }];
+
+      this.prompt(prompt, function (responses) {
+        this.expressServer = responses.server === 'Yes';
         done();
       }.bind(this));
     },

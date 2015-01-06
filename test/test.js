@@ -87,9 +87,8 @@ describe('Webapp generator', function () {
     });
   
     it('creates expected express server files', function (done) {
-      runGen.withOptions(
-        _.extend(options, {expressServer: true})
-      ).on('end', function () {
+      runGen.withOptions(options).withPrompt({server: 'Yes'})
+      .on('end', function () {
 
         assert.file([].concat(
           expected,
