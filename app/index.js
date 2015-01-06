@@ -16,13 +16,6 @@ module.exports = yeoman.generators.Base.extend({
     });
     this.testFramework = this.options['test-framework'];
 
-    this.option('coffee', {
-      desc: 'Use CoffeeScript',
-      type: Boolean,
-      defaults: false
-    });
-    this.coffee = this.options.coffee;
-
     this.pkg = require('../package.json');
   },
 
@@ -47,6 +40,14 @@ module.exports = yeoman.generators.Base.extend({
         value: 'includeBootstrap',
         checked: true
       },{
+        name: 'Foundation',
+        value: 'includeFoundation',
+        checked: false
+      },{
+        name: 'React',
+        value: 'includeReact',
+        checked: false
+      },{
         name: 'Sass',
         value: 'includeSass',
         checked: false
@@ -54,6 +55,10 @@ module.exports = yeoman.generators.Base.extend({
         name: 'Modernizr',
         value: 'includeModernizr',
         checked: false
+      },{
+        name: 'FontAwesome',
+        value: 'includeFontAwesome',
+        checked: true
       }]
     }, {
       when: function (answers) {
@@ -77,7 +82,10 @@ module.exports = yeoman.generators.Base.extend({
 
       this.includeSass = hasFeature('includeSass');
       this.includeBootstrap = hasFeature('includeBootstrap');
+      this.includeFoundation = hasFeature('includeFoundation');
       this.includeModernizr = hasFeature('includeModernizr');
+      this.includeFontAwesome = hasFeature('includeFontAwesome');
+      this.includeReact = hasFeature('includeReact');
 
       this.includeLibSass = answers.libsass;
       this.includeRubySass = !answers.libsass;
@@ -111,6 +119,14 @@ module.exports = yeoman.generators.Base.extend({
       bower.dependencies[bs] = "~3.2.0";
     } else {
       bower.dependencies.jquery = "~1.11.1";
+    }
+
+    if (this.includeFoundation) {
+      bower.dependencies.foundation = "~5.5.0";
+    }
+
+    if (this.includeFontAwesome) {
+      bower.dependencies['font-awesome'] = "~4.2.0";
     }
 
     if (this.includeModernizr) {
@@ -169,8 +185,8 @@ module.exports = yeoman.generators.Base.extend({
     this.indexFile = this.appendFiles({
       html: this.indexFile,
       fileType: 'js',
-      optimizedPath: 'scripts/main.js',
-      sourceFileList: ['scripts/main.js'],
+      optimizedPath: 'bundle.js',
+      sourceFileList: ['bundle.js'],
       searchPath: ['app', '.tmp']
     });
   },
@@ -182,11 +198,16 @@ module.exports = yeoman.generators.Base.extend({
     this.mkdir('app/images');
     this.write('app/index.html', this.indexFile);
 
-    if (this.coffee) {
-      this.copy('main.coffee', 'app/scripts/main.coffee');
-    } else {
-      this.copy('main.js', 'app/scripts/main.js');
+    this.template('main.js', 'app/scripts/main.js');
+    this.copy('api.js', 'app/scripts/api.js');
+    this.copy('events.js', 'app/scripts/events.js');
+    this.copy('errorLogger.js', 'app/scripts/errorLogger.js');
+
+    if (this.includeReact) {
+      this.copy('router.jsx', 'app/scripts/router.jsx');
+      this.copy('product', 'app/scripts/product');  
     }
+
   },
 
   install: function () {
@@ -194,8 +215,7 @@ module.exports = yeoman.generators.Base.extend({
       this.invoke(this.options['test-framework'], {
         options: {
           'skip-message': this.options['skip-install-message'],
-          'skip-install': this.options['skip-install'],
-          'coffee': this.options.coffee
+          'skip-install': this.options['skip-install']
         }
       });
 

@@ -52,7 +52,10 @@ describe('Webapp generator', function () {
         assert.file([].concat(
           expected,
           'app/styles/main.css',
-          'app/scripts/main.js'
+          'app/scripts/main.js',
+          'app/scripts/api.js',
+          'app/scripts/errorLogger.js',
+          'app/scripts/events.js'
         ));
         assert.noFile([
           'app/styles/main.scss',
@@ -71,6 +74,7 @@ describe('Webapp generator', function () {
           ['bower.json', /bootstrap/],
           ['Gruntfile.js', /sass/],
           ['app/index.html', /Sass/],
+          ['app/scripts/main.js', /router/],
           ['.gitignore', /\.sass-cache/],
           ['package.json', /grunt-contrib-sass/],
           ['package.json', /grunt-sass/],
@@ -82,25 +86,6 @@ describe('Webapp generator', function () {
       });
     });
 
-    it('creates expected CoffeeScript files', function (done) {
-      runGen.withOptions(
-        _.extend(options, {coffee: true})
-      ).on('end', function () {
-
-        assert.file([].concat(
-          expected,
-          'app/scripts/main.coffee'
-        ));
-        assert.noFile('app/scripts/main.js');
-
-        assert.fileContent([].concat(
-          expectedContent,
-          [['Gruntfile.js', /coffee/]]
-        ));
-
-        done();
-      });
-    });
 
     it('creates expected modernizr components', function (done) {
       runGen.withOptions(options).withPrompt({features: ['includeModernizr']})
@@ -111,6 +96,20 @@ describe('Webapp generator', function () {
           ['app/index.html', /modernizr/],
           ['bower.json', /modernizr/],
           ['package.json', /modernizr/],
+        ]);
+
+        done();
+      });
+    });
+
+    it('creates expected react components', function (done) {
+      runGen.withOptions(options).withPrompt({features: ['includeReact']})
+      .on('end', function () {
+        assert.file([
+          'app/scripts/router.jsx', 'app/scripts/product/index.js'
+          ]);
+        assert.fileContent([
+          ['app/scripts/main.js', /router/]
         ]);
 
         done();

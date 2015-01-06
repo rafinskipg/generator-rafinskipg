@@ -1,10 +1,10 @@
 {
-  "name": "generator-webapp",
-  "version": "0.5.1",
-  "description": "Scaffold out a front-end web app",
+  "name": "generator-rafinskipg",
+  "version": "0.0.1",
+  "description": "Scaffold out a front-end web app with browserify",
   "license": "BSD",
-  "repository": "yeoman/generator-webapp",
-  "author": "The Yeoman Team",
+  "repository": "rafinskipg/generator-rafinskipg",
+  "author": "Rafinskipg from the yeoman generator webapp",
   "main": "app/index.js",
   "engines": {
     "node": ">=0.10.0",
@@ -24,7 +24,8 @@
     "h5bp",
     "modernizr",
     "jquery",
-    "grunt"
+    "grunt",
+    "browserify"
   ],
   "dependencies": {
     "chalk": "^0.5.1",

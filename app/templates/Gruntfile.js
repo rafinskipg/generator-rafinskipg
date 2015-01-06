@@ -32,21 +32,9 @@ module.exports = function (grunt) {
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
-      bower: {
-        files: ['bower.json'],
-        tasks: ['wiredep']
-      },<% if (coffee) { %>
-      coffee: {
-        files: ['<%%= config.app %>/scripts/{,*/}*.{coffee,litcoffee,coffee.md}'],
-        tasks: ['coffee:dist']
-      },
-      coffeeTest: {
-        files: ['test/spec/{,*/}*.{coffee,litcoffee,coffee.md}'],
-        tasks: ['coffee:test', 'test:watch']
-      },<% } else { %>
       js: {
-        files: ['<%%= config.app %>/scripts/{,*/}*.js'],
-        tasks: ['jshint'],
+        files: ['<%%= config.app %>/scripts/{,*/}*.{js,jsx}'],
+        tasks: ['browserify'],
         options: {
           livereload: '<%%= connect.options.livereload %>'
         }
@@ -54,7 +42,7 @@ module.exports = function (grunt) {
       jstest: {
         files: ['test/spec/{,*/}*.js'],
         tasks: ['test:watch']
-      },<% } %>
+      },
       gruntfile: {
         files: ['Gruntfile.js']
       },<% if (includeSass) { %>
@@ -72,8 +60,7 @@ module.exports = function (grunt) {
         },
         files: [
           '<%%= config.app %>/{,*/}*.html',
-          '.tmp/styles/{,*/}*.css',<% if (coffee) { %>
-          '.tmp/scripts/{,*/}*.js',<% } %>
+          '.tmp/styles/{,*/}*.css',
           '<%%= config.app %>/images/{,*/}*'
         ]
       }
@@ -167,28 +154,6 @@ module.exports = function (grunt) {
           specs: 'test/spec/{,*/}*.js'
         }
       }
-    },<% } %><% if (coffee) { %>
-
-    // Compiles CoffeeScript to JavaScript
-    coffee: {
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '<%%= config.app %>/scripts',
-          src: '{,*/}*.{coffee,litcoffee,coffee.md}',
-          dest: '.tmp/scripts',
-          ext: '.js'
-        }]
-      },
-      test: {
-        files: [{
-          expand: true,
-          cwd: 'test/spec',
-          src: '{,*/}*.{coffee,litcoffee,coffee.md}',
-          dest: '.tmp/spec',
-          ext: '.js'
-        }]
-      }
     },<% } %><% if (includeSass) { %>
 
     // Compiles Sass to CSS and generates necessary files if requested
@@ -235,6 +200,23 @@ module.exports = function (grunt) {
           src: '{,*/}*.css',
           dest: '.tmp/styles/'
         }]
+      }
+    },
+
+    browserify: {
+      options: {
+        debug: true<% if (includeReact) { %>,
+        transform: ['reactify'],
+        extensions: ['.jsx']<% } %>
+      },
+      dist: {<% if (includeReact) { %>
+        options: {
+          external: ['react/addons'],
+          alias: ['react:']  // Make React available externally for dev tools
+        },<% } %>
+        files: {
+          'app/bundle.js': ['app/scripts/main.js'],
+        }
       }
     },
 
@@ -422,17 +404,14 @@ module.exports = function (grunt) {
 
     // Run some tasks in parallel to speed up build process
     concurrent: {
-      server: [<% if (coffee) {  %>
-        'coffee:dist'<% } %><% if (coffee && includeSass) {  %>,<% } %><% if (includeSass) { %>
+      server: [<% if (includeSass) { %>
         'sass:server'<% } else { %>
         'copy:styles'<% } %>
       ],
-      test: [<% if (coffee) { %>
-        'coffee',<% } %><% if (coffee && !includeSass) {  %>,<% } %><% if (!includeSass) { %>
+      test: [<% if (!includeSass) { %>
         'copy:styles'<% } %>
       ],
-      dist: [<% if (coffee) { %>
-        'coffee',<% } %><% if (includeSass) { %>
+      dist: [<% if (includeSass) { %>
         'sass',<% } else { %>
         'copy:styles',<% } %>
         'imagemin',
@@ -452,7 +431,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
-      'wiredep',
+      'browserify',
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',
@@ -483,7 +462,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
-    'wiredep',
+    'browserify',
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',
