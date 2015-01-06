@@ -25,80 +25,92 @@ module.exports = yeoman.generators.Base.extend({
 
     this.pkg = require('../package.json');
   },
+  prompting: {
+    framework: function () {
+      var done = this.async();
 
-  askFor: function () {
-    var done = this.async();
-
-    // welcome message
-    if (!this.options['skip-welcome-message']) {
-      this.log(require('yosay')());
-      this.log(chalk.magenta(
-        'Out of the box I include HTML5 Boilerplate, jQuery, and a ' +
-        'Gruntfile.js to build your app.'
-      ));
-    }
-
-    var prompts = [{
-      type: 'checkbox',
-      name: 'features',
-      message: 'What more would you like?',
-      choices: [{
-        name: 'Bootstrap',
-        value: 'includeBootstrap',
-        checked: true
-      },{
-        name: 'Foundation',
-        value: 'includeFoundation',
-        checked: false
-      },{
-        name: 'React',
-        value: 'includeReact',
-        checked: false
-      },{
-        name: 'Sass',
-        value: 'includeSass',
-        checked: false
-      },{
-        name: 'Modernizr',
-        value: 'includeModernizr',
-        checked: false
-      },{
-        name: 'FontAwesome',
-        value: 'includeFontAwesome',
-        checked: true
-      }]
-    }, {
-      when: function (answers) {
-        return answers && answers.features &&
-          answers.features.indexOf('includeSass') !== -1;
-      },
-      type: 'confirm',
-      name: 'libsass',
-      value: 'includeLibSass',
-      message: 'Would you like to use libsass? Read up more at \n' +
-        chalk.green('https://github.com/andrew/node-sass#node-sass'),
-      default: false
-    }];
-
-    this.prompt(prompts, function (answers) {
-      var features = answers.features;
-
-      function hasFeature(feat) {
-        return features && features.indexOf(feat) !== -1;
+      // welcome message
+      if (!this.options['skip-welcome-message']) {
+        this.log(require('yosay')('Welcome to my generator, I would love to Browserify your NPM. Ask me more at @rafinskipg'));
+        this.log(chalk.magenta(
+          'Out of the box I include HTML5 Boilerplate, Browserify, jQuery, and a ' +
+          'Gruntfile.js to build your app.'
+        ));
       }
 
-      this.includeSass = hasFeature('includeSass');
-      this.includeBootstrap = hasFeature('includeBootstrap');
-      this.includeFoundation = hasFeature('includeFoundation');
-      this.includeModernizr = hasFeature('includeModernizr');
-      this.includeFontAwesome = hasFeature('includeFontAwesome');
-      this.includeReact = hasFeature('includeReact');
+      var prompt = [{
+        type: 'list',
+        name: 'framework',
+        message: 'Select a front end framework:',
+        choices: [
+          'Bootstrap',
+          'Foundation',
+          'None'
+        ]
+      }];
 
-      this.includeLibSass = answers.libsass;
-      this.includeRubySass = !answers.libsass;
+      this.prompt(prompt, function (responses) {
+        this.includeBootstrap = responses.framework === 'Bootstrap';
+        this.includeFoundation = responses.framework === 'Foundation';
+        done();
+      }.bind(this));
+    },
+    
+    askFor: function () {
+      var done = this.async();
 
-      done();
-    }.bind(this));
+      var prompts = [{
+        type: 'checkbox',
+        name: 'features',
+        message: 'What more would you like?',
+        choices: [{
+          name: 'React',
+          value: 'includeReact',
+          checked: true
+        },{
+          name: 'Sass',
+          value: 'includeSass',
+          checked: true
+        },{
+          name: 'Modernizr',
+          value: 'includeModernizr',
+          checked: false
+        },{
+          name: 'FontAwesome',
+          value: 'includeFontAwesome',
+          checked: true
+        }]
+      }, {
+        when: function (answers) {
+          return answers && answers.features &&
+            answers.features.indexOf('includeSass') !== -1;
+        },
+        type: 'confirm',
+        name: 'libsass',
+        value: 'includeLibSass',
+        message: 'Would you like to use libsass? Read up more at \n' +
+          chalk.green('https://github.com/andrew/node-sass#node-sass'),
+        default: false
+      }];
+
+      this.prompt(prompts, function (answers) {
+        var features = answers.features;
+
+        function hasFeature(feat) {
+          return features && features.indexOf(feat) !== -1;
+        }
+
+        this.includeSass = hasFeature('includeSass');
+        this.includeModernizr = hasFeature('includeModernizr');
+        this.includeFontAwesome = hasFeature('includeFontAwesome');
+        this.includeReact = hasFeature('includeReact');
+
+        this.includeLibSass = answers.libsass;
+        this.includeRubySass = !answers.libsass;
+
+        done();
+      }.bind(this));
+    }
   },
 
   gruntfile: function () {
@@ -124,13 +136,11 @@ module.exports = yeoman.generators.Base.extend({
     if (this.includeBootstrap) {
       var bs = 'bootstrap' + (this.includeSass ? '-sass-official' : '');
       bower.dependencies[bs] = "~3.2.0";
-    } else {
-      bower.dependencies.jquery = "~1.11.1";
-    }
-
-    if (this.includeFoundation) {
+    } else if (this.includeFoundation) {
       bower.dependencies.foundation = "~5.5.0";
     }
+
+    bower.dependencies.jquery = "~2.1.0";
 
     if (this.includeFontAwesome) {
       bower.dependencies['font-awesome'] = "~4.2.0";
