@@ -1,8 +1,8 @@
-# Rafinskipg generator [![Build Status](https://secure.travis-ci.org/yeoman/generator-rafinskipg.svg?branch=master)](http://travis-ci.org/yeoman/generator-rafinskipg)
+# Rafinskipg generator [![Build Status](https://secure.travis-ci.org/rafinskipg/generator-rafinskipg.svg?branch=master)](http://travis-ci.org/rafinskipg/generator-rafinskipg)
 
 [Yeoman](http://yeoman.io) generator that scaffolds out a front-end web app using browserify, and optionally React.
 
-![](http://i.imgur.com/uKTT2Hj.png)
+![](http://i.imgur.com/09LRZMM.png)
 
 ## Features
 
