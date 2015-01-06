@@ -1,6 +1,6 @@
-# Web app generator [![Build Status](https://secure.travis-ci.org/yeoman/generator-rafinskipg.svg?branch=master)](http://travis-ci.org/yeoman/generator-rafinskipg)
+# Rafinskipg generator [![Build Status](https://secure.travis-ci.org/yeoman/generator-rafinskipg.svg?branch=master)](http://travis-ci.org/yeoman/generator-rafinskipg)
 
-[Yeoman](http://yeoman.io) generator that scaffolds out a front-end web app.
+[Yeoman](http://yeoman.io) generator that scaffolds out a front-end web app using browserify, and optionally React.
 
 ![](http://i.imgur.com/uKTT2Hj.png)
 
@@ -10,10 +10,13 @@
 * Built-in preview server with LiveReload
 * Automagically compile Sass
 * Automagically compile Browserified bundle
+* Includes react
 * Awesome Image Optimization (via OptiPNG, pngquant, jpegtran and gifsicle)
 * Mocha Unit Testing with PhantomJS
 * Bootstrap for Sass (Optional)
+* Foundation (Optional)
 * Leaner Modernizr builds (Optional)
+* Express server for avoiding the use of grunt for tools like pm2 or heroku that prefers to use the easier way `node server.js` (Optional)
 
 For more information on what `generator-rafinskipg` can do for you, take a look at the [Grunt tasks](https://github.com/yeoman/generator-rafinskipg/blob/master/app/templates/_package.json) used in our `package.json`.
 
@@ -26,17 +29,6 @@ For more information on what `generator-rafinskipg` can do for you, take a look 
 
 
 #### Third-Party Dependencies
-
-*(HTML/CSS/JS/Images/etc)*
-
-Third-party dependencies are managed with [grunt-wiredep](https://github.com/stephenplusplus/grunt-wiredep). Add new dependencies using **Bower** and then run the **Grunt** task to load them:
-
-```sh
-$ bower install --save jquery
-$ grunt wiredep
-```
-
-This works if the package author has followed the [Bower spec](https://github.com/bower/bower.json-spec). If the files are not automatically added to your source code, check with the package's repo for support and/or file an issue with them to have it updated.
 
 To manually add dependencies, `bower install --save depName` to get the files, then add a `script` or `style` tag to your `index.html` or another appropriate place.
 
