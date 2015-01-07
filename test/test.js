@@ -56,6 +56,7 @@ describe('Webapp generator', function () {
           'app/scripts/api.js',
           'app/scripts/errorLogger.js',
           'app/scripts/events.js',
+          'app/scripts/settings.js',
           'app/mock/products.json'
         ));
         assert.noFile([
@@ -141,7 +142,7 @@ describe('Webapp generator', function () {
         assert.noFile([
           'app/scripts/router.jsx', 'app/scripts/product/index.js','app/scripts/common/index.js'
           ]);
-        
+
         assert.noFileContent([
           ['app/scripts/main.js', /router/],
           ['app/index.html', /contentapp/]

@@ -231,6 +231,7 @@ module.exports = yeoman.generators.Base.extend({
     this.template('main.js', 'app/scripts/main.js');
     this.copy('api.js', 'app/scripts/api.js');
     this.copy('events.js', 'app/scripts/events.js');
+    this.copy('settings.js', 'app/scripts/settings.js');
     this.copy('errorLogger.js', 'app/scripts/errorLogger.js');
 
     if (this.includeReact) {
