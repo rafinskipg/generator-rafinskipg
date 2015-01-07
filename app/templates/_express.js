@@ -7,12 +7,8 @@ var app = express();
 // app.use(favicon(config.root + '/public/img/favicon.ico'));
 
 app.use(compress());
-app.use(express.static('/dist'));
-
-app.use(function (req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
+app.use(express.static(__dirname + '/app'));
+app.use(express.static(__dirname + '/bower_components'));
+app.use(express.static(__dirname + '/dist'));
 
 app.listen(9000);

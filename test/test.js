@@ -16,7 +16,8 @@ describe('Webapp generator', function () {
 
     var expectedContent = [
       ['bower.json', /"name": "tmp"/],
-      ['package.json', /"name": "tmp"/]
+      ['package.json', /"name": "tmp"/],
+      ['app/index.html', /jquery/]
     ];
     var expected = [
       '.editorconfig',
@@ -121,6 +122,19 @@ describe('Webapp generator', function () {
       });
     });
 
+    it('creates expected font awesome components', function (done) {
+      runGen.withOptions(options).withPrompt({features: ['includeFontAwesome']})
+      .on('end', function () {
+
+        assert.fileContent([
+          ['app/index.html', /awesome/],
+          ['bower.json', /awesome/]
+        ]);
+
+        done();
+      });
+    });
+
     it('creates expected react components', function (done) {
       runGen.withOptions(options).withPrompt({features: ['includeReact']})
       .on('end', function () {
@@ -136,7 +150,7 @@ describe('Webapp generator', function () {
       });
     });
 
-    it('does not creates expected react components', function (done) {
+    it('does not creates expected react, nor font awesome components', function (done) {
       runGen.withOptions(options).withPrompt({features: []})
       .on('end', function () {
         assert.noFile([
@@ -145,7 +159,9 @@ describe('Webapp generator', function () {
 
         assert.noFileContent([
           ['app/scripts/main.js', /router/],
-          ['app/index.html', /contentapp/]
+          ['app/index.html', /contentapp/],
+          ['app/index.html', /awesome/],
+          ['bower.json', /awesome/]
         ]);
 
         done();

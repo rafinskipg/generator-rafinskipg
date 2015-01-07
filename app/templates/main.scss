@@ -89,7 +89,11 @@ body {
   .jumbotron {
     border-bottom: 0;
   }
-}<% } else { %>// bower:scss
+}<% } else if(includeFoundation){ %>
+// bower:scss
+@import "../bower_components/foundation/scss/foundation.scss";
+// endbower
+<% } else { %>// bower:scss
 // endbower
 
 body {
