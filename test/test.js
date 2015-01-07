@@ -123,7 +123,7 @@ describe('Webapp generator', function () {
       runGen.withOptions(options).withPrompt({features: ['includeReact']})
       .on('end', function () {
         assert.file([
-          'app/scripts/router.jsx', 'app/scripts/product/index.js'
+          'app/scripts/router.jsx', 'app/scripts/product/index.js','app/scripts/common/index.js'
           ]);
         assert.fileContent([
           ['app/scripts/main.js', /router/]

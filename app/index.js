@@ -236,6 +236,7 @@ module.exports = yeoman.generators.Base.extend({
     if (this.includeReact) {
       this.copy('router.jsx', 'app/scripts/router.jsx');
       this.bulkDirectory('product', 'app/scripts/product');  
+      this.bulkDirectory('common', 'app/scripts/common');  
     }
 
   },
