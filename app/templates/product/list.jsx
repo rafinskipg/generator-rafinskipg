@@ -8,15 +8,17 @@ var ProductRow = React.createClass({
   },
   handleEdit: function(ev){
     ev.preventDefault();
-    window.location.hash = '#/product/' + this.state._id;
+    //window.location.hash = '#/product/' + this.state._id;
+    alert('edit');
   },
   handleDelete: function(ev){
     ev.preventDefault();
     //Intended to fail
-    api.kill({
+    /*api.kill({
       name: 'productDeleted',
       path: 'product/' + this.state._id
-    });
+    });*/
+    alert('Delete');
   },
 
   render: function() {
@@ -41,7 +43,7 @@ var ListBox = React.createClass({
     }.bind(this));
 
     api.fetch({
-      path : 'product',
+      path : 'products.json',
       name : 'products'
     });
 
@@ -64,7 +66,7 @@ var ListBox = React.createClass({
 
       return (
           <div>
-            <div className="title">Product List</div>
+            <div className="title">Boilerplate Product List</div>
             {rows}
           </div>
       );
@@ -75,8 +77,8 @@ var ListBox = React.createClass({
 var List = React.createClass({
   render: function() {
       return (
-          <div className="row">
-            <div className="col-xs-12 productList">
+          <div className="list-container">
+            <div className="productList">
               <ListBox/>
             </div>
           </div>

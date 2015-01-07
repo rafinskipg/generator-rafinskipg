@@ -47,6 +47,8 @@
           <h4>HTML5 Boilerplate</h4>
           <p>HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.</p>
 
+          <p>With Browserify :D</p>
+
           <% if (includeSass) { %><h4>Sass</h4>
           <p>Sass is a mature, stable, and powerful professional grade CSS extension language.</p>
           <% } %>
@@ -57,6 +59,9 @@
           <% if (includeModernizr) { %><h4>Modernizr</h4>
           <p>Modernizr is an open-source JavaScript library that helps you build the next generation of HTML5 and CSS3-powered websites.</p>
           <% } %>
+
+          <% if (includeReact) { %><p>React</p><% } %>
+          <% if (expressServer) { %><p>Express Server to launch your distribution with 'node server.js'</p><% } %>
         </div>
       </div>
 
@@ -71,10 +76,19 @@
       <p>You now have</p>
       <ul>
       <li>HTML5 Boilerplate</li>
+      <li>Browserify</li>
       <% if (includeSass) { %><li>Sass</li><% } %>
       <% if (includeModernizr) { %><li>Modernizr</li><% } %>
+      <% if (includeReact) { %><li>React</li><% } %>
+      <% if (includeFoundation) { %><li>Foundation</li><% } %>
+      <% if (expressServer) { %><li>Express Server</li><% } %>
       </ul>
     </div>
+    <% } %>
+
+    <% if (includeReact) { %>
+    <!-- Your React application gets inserted here -->
+    <div id="contentapp"></div>
     <% } %>
 
     <!-- build:js(.) scripts/vendor.js -->

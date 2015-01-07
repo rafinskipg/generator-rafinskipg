@@ -239,6 +239,7 @@ module.exports = yeoman.generators.Base.extend({
       this.bulkDirectory('common', 'app/scripts/common');  
     }
 
+    this.bulkDirectory('mock', 'app/mock');
   },
 
   express: function(){

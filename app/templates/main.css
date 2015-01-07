@@ -115,3 +115,19 @@ body {
   color: #000;
   padding: 0.2em 0;
 }<% } %>
+
+
+<% if(includeReact) { %>
+.list-container{
+  margin-top:  20px;
+}
+.list-container .title{
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.product{
+  padding : 30px;
+  border-bottom: 1px solid green;
+}
+<% } %>

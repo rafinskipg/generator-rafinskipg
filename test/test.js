@@ -55,7 +55,8 @@ describe('Webapp generator', function () {
           'app/scripts/main.js',
           'app/scripts/api.js',
           'app/scripts/errorLogger.js',
-          'app/scripts/events.js'
+          'app/scripts/events.js',
+          'app/mock/products.json'
         ));
         assert.noFile([
           'app/styles/main.scss',
@@ -126,7 +127,24 @@ describe('Webapp generator', function () {
           'app/scripts/router.jsx', 'app/scripts/product/index.js','app/scripts/common/index.js'
           ]);
         assert.fileContent([
-          ['app/scripts/main.js', /router/]
+          ['app/scripts/main.js', /router/],
+          ['app/index.html', /contentapp/]
+        ]);
+
+        done();
+      });
+    });
+
+    it('does not creates expected react components', function (done) {
+      runGen.withOptions(options).withPrompt({features: []})
+      .on('end', function () {
+        assert.noFile([
+          'app/scripts/router.jsx', 'app/scripts/product/index.js','app/scripts/common/index.js'
+          ]);
+        
+        assert.noFileContent([
+          ['app/scripts/main.js', /router/],
+          ['app/index.html', /contentapp/]
         ]);
 
         done();

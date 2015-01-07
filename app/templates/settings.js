@@ -1,3 +1,3 @@
 module.exports = {
-  basePath : '/api/v1'
+  basePath : '/mock'
 }
