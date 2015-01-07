@@ -1,5 +1,4 @@
 var ProductList = require('./product').list;
-var UsersList = require('./user').list;
 var ProductForm = require('./product').form;
 var PageNotFound = require('./common').notFound;
 var Router = require('react-router');
@@ -25,7 +24,6 @@ function start () {
       <DefaultRoute handler={ProductList} />
       <Route name="create" handler={ProductForm} ></Route>
       <Route name="products" handler={ProductList} ></Route>
-      <Route name="users" handler={UsersList} ></Route>
       <Route name="product" path="/product/:id" handler={ProductForm} ></Route>
       <NotFoundRoute handler={PageNotFound}></NotFoundRoute>
     </Route>
