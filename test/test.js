@@ -189,6 +189,11 @@ describe('Webapp generator', function () {
       runGen.withOptions(options).withPrompt({features: ['includeSass']})
       .on('end', function () {
 
+        assert.file([
+          'app/styles/_palette.scss',
+          'app/styles/modules/_page.scss'
+          ]);
+
         assert.fileContent([
           ['Gruntfile.js', /sass/],
           ['app/index.html', /Sass/],

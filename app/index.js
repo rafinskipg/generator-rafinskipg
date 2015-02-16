@@ -182,6 +182,14 @@ module.exports = yeoman.generators.Base.extend({
   mainStylesheet: function () {
     var css = 'main.' + (this.includeSass ? 's' : '') + 'css';
     this.template(css, 'app/styles/' + css);
+
+    if(this.includeSass){
+      this.bulkDirectory('styles/ont', 'app/styles/font');
+      this.bulkDirectory('styles/modules', 'app/styles/modules');
+      this.copy('styles/_fonts.scss', 'app/styles/_fonts.scss');
+      this.copy('styles/_palette.scss', 'app/styles/_palette.scss');
+      this.copy('styles/_mixins.scss', 'app/styles/_mixins.scss');
+    }
   },
 
   writeIndex: function () {

@@ -1,0 +1,26 @@
+.share-buttons {
+  .buttons-container{
+    width: 130px;
+    padding-top: 20px;
+  }
+  .share-button{
+    float: left;
+    font-size: 35px;
+
+
+    &.twitter{
+      margin-right: 10px;
+      color: #54ACEC;
+    }
+    &.facebook{
+      color: #3F5C9A;
+    }
+    &.google-plus{
+      margin-right: 10px;
+      color: #DD4B39;
+    }
+  }
+  &.animated{
+    animation-delay : 1800ms;
+  }
+}

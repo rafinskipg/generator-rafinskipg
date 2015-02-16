@@ -1,0 +1,56 @@
+@mixin ellipsis(){
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin transitions($time, $easing, $delay:0s) {
+  -webkit-transition: all $time $easing $delay;
+     -moz-transition: all $time $easing $delay;
+      -ms-transition: all $time $easing $delay;
+       -o-transition: all $time $easing $delay;
+          transition: all $time $easing $delay;
+}
+       
+@mixin animation($name, $time, $times, $mode : forwards, $direction: alternate) {
+  -webkit-animation: $name $time $times;
+     -moz-animation: $name $time $times;
+       -o-animation: $name $time $times;
+          animation: $name $time $times;
+  
+  @if($direction){
+    -webkit-animation-direction: $direction;
+        animation-direction: $direction;
+  }
+
+  @if($mode){
+    -webkit-animation-fill-mode: $mode;
+            animation-fill-mode: $mode;
+  }
+}
+        
+@mixin keyframes($name) {
+  @-webkit-keyframes #{$name} {
+    @content; 
+  }
+  @-moz-keyframes #{$name} {
+    @content;
+  }
+  @-ms-keyframes #{$name} {
+    @content;
+  }
+  @keyframes #{$name} {
+    @content;
+  } 
+}
+
+@mixin simple-transform($scalex: false, $scaley :false, $rotate: false, $trans-x: false, $trans-y: false){
+  $trans: unquote("");
+ 
+  $trans: $trans scale($scalex, $scaley);
+  $trans: $trans rotateZ($rotate);
+  $trans: $trans translate($trans-x, $trans-y);
+
+  transform: $trans;
+
+}
