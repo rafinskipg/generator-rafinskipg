@@ -139,6 +139,10 @@ module.exports = yeoman.generators.Base.extend({
     this.copy('gitattributes', '.gitattributes');
   },
 
+  testfiles: function () {
+    this.bulkDirectory('test', 'test');
+  },
+
   bower: function () {
     var bower = {
       name: this._.slugify(this.appname),

@@ -40,7 +40,7 @@ module.exports = function (grunt) {
         }
       },
       jstest: {
-        files: ['test/spec/{,*/}*.js'],
+        files: ['test/**/{,*/}*.test.js'],
         tasks: ['test:watch']
       },
       gruntfile: {
@@ -153,6 +153,18 @@ module.exports = function (grunt) {
         options: {
           specs: 'test/spec/{,*/}*.js'
         }
+      }
+    },<% } else if (testFramework === 'mochaTest') { %>
+
+    mochaTest: {
+      test: {
+         options: {
+          reporter: 'spec',
+          timeout: 8000,
+          //captureFile: 'tests/results.txt', // Optionally capture the reporter output to a file
+          quiet: false // Optionally suppress output to standard out (defaults to false)
+        },
+        src: ['test/unit/**/*.test.js', 'test/integration.test.js']
       }
     },<% } %><% if (includeSass) { %>
 
