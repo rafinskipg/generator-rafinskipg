@@ -17,6 +17,8 @@ describe('Webapp generator', function () {
     var expectedContent = [
       ['bower.json', /"name": "tmp"/],
       ['package.json', /"name": "tmp"/],
+      ['package.json', /supertest/],
+      ['package.json', /grunt-mocha-test/],
       ['app/index.html', /jquery/]
     ];
     var expected = [
@@ -35,7 +37,8 @@ describe('Webapp generator', function () {
       'skip-install-message': true,
       'skip-install': true,
       'skip-welcome-message': true,
-      'skip-message': true
+      'skip-message': true,
+      'test-framework': 'mochaTest'
     };
 
     var runGen;

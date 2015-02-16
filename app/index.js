@@ -12,7 +12,7 @@ module.exports = yeoman.generators.Base.extend({
     this.option('test-framework', {
       desc: 'Test framework to be invoked',
       type: String,
-      defaults: 'mocha'
+      defaults: 'mochaTest'
     });
     this.testFramework = this.options['test-framework'];
 
@@ -255,7 +255,7 @@ module.exports = yeoman.generators.Base.extend({
 
   install: function () {
     this.on('end', function () {
-      this.invoke(this.options['test-framework'], {
+      this.invoke('mocha', {
         options: {
           'skip-message': this.options['skip-install-message'],
           'skip-install': this.options['skip-install']
